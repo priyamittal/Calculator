@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "prebuild": "rm -rf dist",
+    "test": "echo test",
     "start": "webpack-dev-server --config ./webpack.config.js --mode development",
     "build": "webpack"
   },
