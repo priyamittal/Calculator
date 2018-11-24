@@ -34,6 +34,18 @@ module.exports = {
         filename: 'bundle.js'
     },
     devServer: {
-        contentBase: './dist'
+        contentBase: './dist',
+        port: 8301,
+        disableHostCheck: true,
+        proxy: {
+            '/calculator': {
+                target: 'http://localhost:8080',
+                changeOrigin: true,
+                logLevel: 'info',
+                headers: {
+                    'Access-Control-Allow-Origin': '*'
+                }
+            }
+        }
     }
 };

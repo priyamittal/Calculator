@@ -23,12 +23,37 @@ class CalculatorControllerTest {
         final String base64Query = Base64.getEncoder().encodeToString("2+8".getBytes("utf-8"));
 
        final MockHttpServletResponse response =  mockMvc.perform(get("/calculate")
+                .contentType("application/json")
                 .param("query", base64Query))
                 .andExpect(status().isOk())
         .andReturn()
         .getResponse();
 
-       assertEquals(response.getContentAsString(), "2+8");
+       assertEquals(response.getContentAsString(), "{\"result\":10.0,\"error\":\"false\"}");
     }
+
+    @Test
+    void should_return_success_on_valid_input_1() throws Exception {
+
+        final MockHttpServletResponse response =  mockMvc.perform(get("/bundle.js")
+                .contentType("text/javascript"))
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse();
+
+        System.out.println(response.getContentAsString());
+    }
+
+    @Test
+    void should_return_success_on_valid_input_2() throws Exception {
+
+        final MockHttpServletResponse response =  mockMvc.perform(get("/"))
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse();
+
+        System.out.println(response.getContentAsString());
+    }
+
 
 }
