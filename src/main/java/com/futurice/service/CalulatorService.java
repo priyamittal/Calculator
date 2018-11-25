@@ -2,8 +2,7 @@ package com.futurice.service;
 
 import io.vavr.control.Try;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.EmptyStackException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -16,11 +15,8 @@ public class CalulatorService {
 
     public static List<String> convertToRPN(final String query) {
 
-//        final List<String> tokens1 = Stream.of(query.toCharArray())
-//                .map(String::new)
-//                .collect(Collectors.toList());
-
-        final String[] tokens = query.split("(?=[-/*+()])|(?<=[-/*+()])");
+        String queryWithoutWhiteSpaces = query.replaceAll("\\s+","");
+        final String[] tokens = queryWithoutWhiteSpaces.split("(?=[-/*+()])|(?<=[-/*+()])");
 
         final Stack<CalculatorOperator> operators = new Stack<>();
         final Queue<String> rpn = new LinkedList<>();
@@ -65,34 +61,38 @@ public class CalulatorService {
     }
 
     public static Double calculateFromRpn(final List<String> rpn) {
-        Stack<Double> numbers = new Stack<>();
 
-        for(String token : rpn) {
-            if(isNumeric(token)) {
-                numbers.push(Double.parseDouble(token));
-                continue;
+            Stack<Double> numbers = new Stack<>();
+
+            for (String token : rpn) {
+                if (isNumeric(token)) {
+                    numbers.push(Double.parseDouble(token));
+                    continue;
+                }
+
+                CalculatorOperator operatorToken = CalculatorOperator
+                        .findOperator(token)
+                        .orElseThrow(IllegalArgumentException::new);
+                try {
+                    switch (operatorToken) {
+                        case PLUS:
+                            calcSign(numbers, (n1, n2) -> n1 + n2);
+                            break;
+                        case MINUS:
+                            calcSign(numbers, (n1, n2) -> n2 - n1);
+                            break;
+                        case MULTIPLY:
+                            calcSign(numbers, (n1, n2) -> n2 * n1);
+                            break;
+                        case DIVIDE:
+                            calcSign(numbers, (n1, n2) -> n2 / n1);
+                            break;
+                    }
+                } catch (EmptyStackException ex) {
+                    throw ex;
+                }
             }
-
-            CalculatorOperator operatorToken = CalculatorOperator
-                    .findOperator(token)
-                    .orElseThrow(IllegalArgumentException::new);
-
-            switch (operatorToken) {
-                case PLUS:
-                    calcSign(numbers, (n1, n2) -> n1+n2);
-                    break;
-                case MINUS:
-                    calcSign(numbers, (n1, n2) -> n2 - n1);
-                    break;
-                case MULTIPLY:
-                    calcSign(numbers, (n1, n2) -> n2 * n1);
-                    break;
-                case DIVIDE:
-                    calcSign(numbers, (n1, n2) -> n2 / n1);
-                    break;
-            }
-        }
-        return numbers.pop();
+            return numbers.pop();
     }
 
     private static Stack<Double> calcSign(Stack<Double> numbers, BiFunction<Double, Double, Double> operation) {

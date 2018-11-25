@@ -31,7 +31,7 @@ public class CalculatorController {
                 "<script src=\"./bundle.js\"></script></body></html>";
     }
 
-    @RequestMapping(value = "/*.js")
+    @RequestMapping(value = "/bundle.js")
     public ResponseEntity<byte[]> index() throws IOException {
 
         InputStream input = new ClassPathResource("/assets/bundle.js").getInputStream();
@@ -46,11 +46,29 @@ public class CalculatorController {
 
     @RequestMapping(name= "/calculate" , method = GET, produces = "application/json")
     public ResponseEntity<Object> calculate(@RequestParam(value = "query") String base64Query) throws UnsupportedEncodingException {
-        final String query = decodeBase64Query(base64Query);
+        JSONObject resultJson;
+        try {
+            final String query = decodeBase64Query(base64Query);
 
         List<String> rpnQuery = CalulatorService.convertToRPN(query);
-        JSONObject result = resultToJson(CalulatorService.calculateFromRpn(rpnQuery));
-        return ResponseEntity.ok(result);
+        double result;
+            result = CalulatorService.calculateFromRpn(rpnQuery);
+
+            resultJson = resultToJson(result);
+        }
+        catch (Exception ex) {
+            resultJson = resultToErrorJson();
+        }
+
+        return ResponseEntity.ok(resultJson);
+    }
+
+    private JSONObject resultToErrorJson() {
+        JSONObject obj = new JSONObject();
+
+        obj.put("error", "true");
+        obj.put("result", "invalid input");
+        return obj;
     }
 
 
