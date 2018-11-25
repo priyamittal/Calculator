@@ -1,0 +1,37 @@
+input[type="button"]{
+    border: 1px solid #222;
+    padding: 10px 20px;
+    color: black;
+    text-align: center;
+    font-size: 16px;
+}
+
+input[type="button"]:active {
+    background: gray;
+}
+
+input[type="text"]{
+    width: 400px;
+    background: #ddd;
+    border: 0px;
+    color: #222;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    text-align: right;
+    font-size: 16px;
+}
+
+.single{
+    width: 100px;
+}
+.double{
+    width: 200px;
+}
+
+.orange{
+    background: orange;
+}
+
+.aquamarine{
+    background: aquamarine;
+}

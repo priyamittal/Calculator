@@ -55,7 +55,6 @@ public class CalculatorController {
 
 
     private String decodeBase64Query(final String base64Query) throws UnsupportedEncodingException {
-        System.out.println("base64Querybase64Query : "+base64Query);
         return  new String(Base64.getDecoder().decode(base64Query), "utf-8");
     }
 

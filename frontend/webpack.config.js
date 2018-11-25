@@ -14,7 +14,36 @@ module.exports = {
                 test: /\.(js|jsx)$/,
                 exclude: /node_modules/,
                 use: ['babel-loader']
+            },
+            {
+                test: /\.css$/,
+                use: [
+                    {
+                        loader: 'style-loader',
+                        options: {
+                            sourceMap: true,
+                        },
+                    },
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            sourceMap: true,
+                            camelCase: true,
+                            importLoaders: 1,
+                            modules: true,
+                            localIdentName: '[name]__[local]___[hash:base64:5]',
+                        },
+                    },
+                    {
+                        loader: 'postcss-loader',
+                        options: {
+                            sourceMap: true,
+                            path: 'postcss.config.js',
+                        },
+                    },
+                ],
             }
+
         ]
     },
     plugins: [

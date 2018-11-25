@@ -1,9 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {CalculatorComponent} from './CalculatorComponent';
 
-const title = 'Basic setup';
 
-ReactDOM.render(
-<div>{title}</div>,
-document.getElementById('app')
-);
+ReactDOM.render(<CalculatorComponent />, document.getElementById('app'));
