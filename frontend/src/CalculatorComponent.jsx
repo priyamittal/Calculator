@@ -28,8 +28,8 @@ export class CalculatorComponent extends Component {
                 <input type="text" readOnly value = {this.state.output}/>
                 </div>
                 <div className="button-row">
-                    <Button className ={`${css.single} ${css.aquamarine}`} label={'Clear'} handleClick = {this.handleClick}/>
-                    <Button className ={`${css.single} ${css.aquamarine}`} label={'Delete'} handleClick = {this.handleClick}/>
+                    <Button className ={`${css.single} ${css.grey}`} label={'Clear'} handleClick = {this.handleClick}/>
+                    <Button className ={`${css.single} ${css.grey}`} label={'Delete'} handleClick = {this.handleClick}/>
                     <Button className ={`${css.single} ${css.orange}`} label={'('} handleClick = {this.handleClick}/>
                     <Button className ={`${css.single} ${css.orange}`} label={')'} handleClick = {this.handleClick}/>
                 </div>
