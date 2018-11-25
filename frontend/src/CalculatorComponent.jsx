@@ -90,7 +90,7 @@ export class CalculatorComponent extends Component {
      getServices(input) {
          var encodedQuery = btoa(input);
 
-         var finalQuery  = 'http://localhost:8080/calculator?query='+encodedQuery
+         var finalQuery  = '/calculator?query='+encodedQuery
 
          return this.callApi(
             this.get,
